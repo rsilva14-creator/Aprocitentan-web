@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aprocitentan — Monografía Interactiva</title>
+  <style>
+    :root{--bg:#f2f5f7;--card:#fff;--accent:#007bff;--muted:#6b7b8c}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,"Segoe UI",Roboto,Arial;background:var(--bg);color:#0f2f47;padding:20px;display:flex;justify-content:center}
+    .wrap{width:100%;max-width:1200px}
+    header{display:flex;gap:14px;align-items:center;margin-bottom:18px}
+    header img{width:64px;height:64px;border-radius:8px;object-fit:cover;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:4px 0 0;color:var(--muted)}
+    .layout{display:grid;grid-template-columns:1fr 430px;gap:20px}
+    .image-container{position:relative;border-radius:10px;overflow:hidden;background:linear-gradient(180deg,#fff,#eef3f8);min-height:420px}
+    .drug-image{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+    .hotspot{position:absolute;width:20px;height:20px;border-radius:50%;background:var(--accent);border:3px solid white;cursor:pointer;transform:translate(-50%,-50%);box-shadow:0 8px 20px rgba(0,0,0,.15);animation:pulse 1.6s infinite}
+    @keyframes pulse{0%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.35)}100%{transform:translate(-50%,-50%) scale(1)} }
+    aside.panel{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 10px 30px rgba(15,47,71,.08);min-height:420px;overflow:auto}
+    aside.panel h2{margin:0 0 8px}
+    .meta{color:var(--muted);font-size:13px;margin-bottom:8px}
+    .content{font-size:14px;line-height:1.45;color:#203247}
+    .sources{margin-top:12px;font-size:13px;color:#234a62;background:#f7fbff;padding:10px;border-radius:8px}
+    .quiz .question{margin-bottom:12px}
+    .option{display:block;padding:10px;border-radius:8px;border:1px solid #e6eef6;background:#fbfeff;margin-bottom:8px;cursor:pointer;text-align:left}
+    .option.correct{border-color:#2ecc71;background:#e9fbf0}
+    .option.wrong{border-color:#ff6b6b;background:#fff1f1}
+    .small{font-size:13px;color:var(--muted)}
+    .members ul{padding-left:18px}
+    @media (max-width:980px){.layout{grid-template-columns:1fr}aside.panel{order:2}.panel{margin-top:14px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <!-- Ahora la imagen se toma desde assets/aprocitentan.png en el repo -->
+      <img src="assets/aprocitentan.png" alt="Aprocitentan">
+      <div>
+        <h1>Aprocitentan (Tryvio) — Monografía Interactiva</h1>
+        <p class="lead">Toca los puntos sobre la imagen para abrir cada sección. En el panel derecho aparecen las fuentes y explicaciones.</p>
+      </div>
+    </header>
+
+    <div class="layout">
+      <div class="image-container" role="img" aria-label="Estructura de Aprocitentan">
+        <img class="drug-image" src="assets/aprocitentan.png" alt="Estructura química de Aprocitentan">
+
+        <!-- Hotspots: 7 puntos -->
+        <div class="hotspot" style="top:14%; left:30%;" onclick="openSection('general')" title="Información general" tabindex="0" role="button"></div>
+        <div class="hotspot" style="top:30%; left:68%;" onclick="openSection('indicacion')" title="Indicaciones" tabindex="0" role="button"></div>
+        <div class="hotspot" style="top:46%; left:28%;" onclick="openSection('etiologia')" title="Etiología" tabindex="0" role="button"></div>
+        <div class="hotspot" style="top:58%; left:72%;" onclick="openSection('mecanismo')" title="Mecanismo de acción" tabindex="0" role="button"></div>
+        <div class="hotspot" style="top:74%; left:34%;" onclick="openSection('pk')" title="Farmacocinética" tabindex="0" role="button"></div>
+        <div class="hotspot" style="top:86%; left:68%;" onclick="openSection('seguridad')" title="Seguridad" tabindex="0" role="button"></div>
+        <div class="hotspot" style="top:92%; left:50%;" onclick="openSection('bibliografia')" title="Referencias y test" tabindex="0" role="button"></div>
+      </div>
+
+      <aside id="panel" class="panel" aria-live="polite">
+        <h2>Bienvenido</h2>
+        <div class="meta">Seleccione un punto sobre la imagen para ver la sección. También se incluye un test interactivo y la lista de miembros.</div>
+        <div class="content">Se han integrado: Información general, Indicaciones y dosis, Etiología, Mecanismo molecular, Farmacocinética, Seguridad, Bibliografía, Test interactivo (10 preguntas) y Miembros del grupo.</div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const panel = document.getElementById('panel');
+
+    const sections = {
+      general: { title: 'Información General del Fármaco', html: `<div class="meta">Nombre, clasificación y fórmula</div><div class="content"><p><strong>Nombre genérico:</strong> Aprocitentan</p><p><strong>Nombre comercial:</strong> Tryvio</p><p><strong>Clasificación farmacológica:</strong> Antihipertensivo; Antagonista del receptor de endotelina (ETA/ETB).</p><p><strong>Fórmula química:</strong> C16H14Br2N6O4S<br><strong>Peso molecular:</strong> 546.19 g/mol (promedio)</p></div><div class="sources"><strong>Fuentes (ver sección Bibliografía para detalles completos).</strong></div>` },
+      indicacion: { title: 'Indicaciones terapéuticas y dosis', html: `<div class="meta">Uso clínico y posología</div><div class="content"><p><strong>Indicación principal:</strong> Tratamiento de la hipertensión resistente en adultos, como terapia adyuvante cuando la presión arterial permanece elevada a pesar del uso de al menos tres antihipertensivos (incluyendo un diurético).</p><p><strong>Dosis aprobada:</strong> 1 comprimido de 12,5 mg una vez al día, vía oral.</p></div><div class="sources"><strong>Fuentes:</strong> Documentación regulatoria y revisiones científicas.</div>` },
+      etiologia: { title: 'Etiología de la hipertensión resistente', html: `<div class="meta">Causas y mecanismos contribuyentes</div><div class="content"><p>La hipertensión resistente se define por la falta de control con tres o más antihipertensivos (incluyendo un diurético) o por la necesidad de cuatro o más fármacos para controlar la presión. Los factores implicados incluyen pobre adherencia, medicamentos subóptimos, hipertensión secundaria no diagnosticada, interacciones farmacológicas, intolerancias y mecanismos fisiopatológicos como mayor producción de mediadores vasoconstrictores (p. ej. endotelina‑1), disfunción endotelial, activación neurohormonal y remodelado vascular.</p></div><div class="sources"><strong>Fuentes:</strong> Revisiones científicas y análisis clínicos.</div>` },
+      mecanismo: { title: 'Mecanismo de Acción Molecular', html: `<div class="meta">Blanco molecular y tipo de interacción</div><div class="content"><p>Aprocitentan es un antagonista dual de los receptores de endotelina (ETA y ETB), con mayor afinidad por ETA. La endotelina‑1 es un péptido vasoconstrictor potente que actúa a través de estos receptores para aumentar el tono vascular y promover remodelado. Aprocitentan se une de forma reversible (no covalente) a los receptores, inhibiendo los efectos vasoconstrictores y antiproliferativos de la ET‑1, produciendo vasodilatación y reducción de la presión arterial.</p><p>Parámetros de afinidad reportados: IC50 aproximadamente 3.4 nM para ETA y ~987 nM para ETB (selectividad por ETA).</p><p>Inicio y duración: Reducción de la presión observable en días; efecto máximo en semanas. Vida media larga que permite dosificación diaria.</p></div><div class="sources"><strong>Fuentes:</strong> Revisiones y datos preclínicos y clínicos.</div>` },
+      pk: { title: 'Farmacocinética (ADME)', html: `<div class="meta">Absorción, distribución, metabolismo y excreción</div><div class="content"><ul><li><strong>Absorción:</strong> Oral. Tmax ~4–5 horas.</li><li><strong>Distribución:</strong> Volumen aparente ~20 L; unión a proteínas >99% (albúmina).</li><li><strong>Metabolismo:</strong> Glucuronidación (UGT1A1, UGT2B7) y vías no enzimáticas; forma metabolitos.</li><li><strong>Eliminación:</strong> Aproximadamente 52% por orina y ~25% por heces en estudios de balance.</li><li><strong>Vida media:</strong> ~41 horas.</li></ul></div><div class="sources"><strong>Fuentes:</strong> Revisiones, bases de datos y documentación regulatoria.</div>` },
+      seguridad: { title: 'Seguridad, efectos adversos y contraindicaciones', html: `<div class="meta">Perfil de eventos adversos y precauciones</div><div class="content"><p>Los eventos adversos más relevantes incluyen retención de líquidos/edema, anemia (disminución de hemoglobina) y elevación de enzimas hepáticas. Aprocitentan está contraindicado en mujeres embarazadas por riesgo teratogénico; requiere un plan de manejo para personas en edad fértil. Se recomienda monitorizar función hepática y hemograma durante el tratamiento. También se han descrito alteraciones reproductivas en estudios preclínicos (efectos sobre la fertilidad masculina).</p></div><div class="sources"><strong>Fuentes:</strong> Informe regulatorio y artículos de revisión.</div>` },
+      bibliografia: { title: 'Referencias bibliográficas y documentación', html: `<div class="meta">Fuentes principales consultadas</div><div class="content"><ol><li>Dhillon S. Aprocitentan: First approval. Drugs. 2024.</li><li>TRYVIO (aprocitentan) label. FDA Integrated Review / Prescribing Information.</li><li>Xu J, Jiang X, Xu S. Aprocitentan: a dual endothelin-1 antagonist... Drug Discovery Today. 2023.</li><li>Mahfooz K. New dual endothelin receptor antagonist aprocitentan... Curr Probl Cardiol. 2023.</li><li>DrugBank: Aprocitentan (DB15059).</li></ol><p class="small">(En la entrega final se incluyen DOI y links a los documentos regulatorios y artículos.)</p></div>` },
+      test: { title: 'Test de conocimientos — 10 preguntas', html: `<div class="meta">Pregunta rápida: selecciona una respuesta y recibirás retroalimentación inmediata.</div><div class="quiz" id="quiz"></div>` },
+      miembros: { title: 'Miembros del grupo', html: `<div class="meta">Equipo y responsabilidades</div><div class="content members"><ul><li><strong>Erwin Soto:</strong> Indicación terapéutica y etiología.</li><li><strong>Vanessa Torres:</strong> Nombre comercial, fecha de aprobación, clasificación farmacológica y estructura química.</li><li><strong>Rodrigo Silva:</strong> Informática — implementación web y panel interactivo.</li><li><strong>Javier Salgado:</strong> Informática — pruebas y diseño UX.</li><li><strong>José Guisel:</strong> Informática — funcionalidades y despliegue.</li></ul></div>` }
+    };
+
+    function openSection(key){
+      const s = sections[key];
+      if(!s) return;
+      panel.innerHTML = `<h2>${s.title}</h2>` + s.html;
+      if(key==='test') initQuiz();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    // --- Quiz implementation ---
+    const quizData = [
+      {q:'¿Cuál es el nombre comercial de Aprocitentan?', a:['Tryvio','Tracleer','Entresto','Norvasc'], correct:0, exp:'Tryvio es el nombre comercial aprobado.'},
+      {q:'¿Cuál es la indicación principal de Aprocitentan?', a:['Hipertensión resistente','Diabetes tipo 2','Asma','Infecciones bacterianas'], correct:0, exp:'Está indicado para hipertensión resistente.'},
+      {q:'¿Cuál es la dosis aprobada habitual?', a:['12.5 mg una vez al día','50 mg una vez al día','5 mg dos veces al día','100 mg semanal'], correct:0, exp:'La dosis aprobada es 12.5 mg una vez al día.'},
+      {q:'Aprocitentan antagoniza principalmente qué receptores?', a:['Receptores de endotelina ETA/ETB','Receptores Beta-adrenérgicos','Canal de calcio L','Receptores AT1 de angiotensina'], correct:0, exp:'Es un antagonista dual de ETA y ETB.'},
+      {q:'La vida media aproximada de Aprocitentan es:', a:['~41 horas','~4 horas','~10 minutos','~7 días'], correct:0, exp:'La vida media reportada es cerca de 41 horas.'},
+      {q:'¿Cuál es la fórmula química?', a:['C16H14Br2N6O4S','C20H25N3O','C9H8O4','C21H28ClN3O'], correct:0, exp:'La fórmula química es C16H14Br2N6O4S.'},
+      {q:'¿En qué año fue aprobado por la FDA (EE. UU.)?', a:['2024','2010','2018','2021'], correct:0, exp:'La aprobación por la FDA fue en 2024.'},
+      {q:'Un efecto adverso frecuentemente reportado es:', a:['Retención de líquidos/edema','Mareos leves únicamente','Náusea ocasional sin más','Pérdida de cabello'], correct:0, exp:'El edema/retención de líquidos es un evento reportado.'},
+      {q:'La mayor unión a proteínas plasmáticas de aprocitentan es aproximadamente:', a:['>99%','~50%','~10%','~75%'], correct:0, exp:'La unión a proteínas es >99%.'},
+      {q:'Una precaución importante al usar aprocitentan es:', a:['Contraindicación en embarazo','No combinar con diuréticos','Usar solo en niños','Evitar durante el sueño'], correct:0, exp:'Está contraindicado en embarazo por riesgo fetal.'}
+    ];
+
+    function initQuiz(){
+      const container = document.getElementById('quiz');
+      if(!container) return;
+      container.innerHTML='';
+      quizData.forEach((item,i)=>{
+        const qdiv = document.createElement('div'); qdiv.className='question';
+        const qtitle = document.createElement('div'); qtitle.innerHTML=`<strong>Pregunta ${i+1}:</strong> ${item.q}`;
+        qdiv.appendChild(qtitle);
+        item.a.forEach((opt, idx)=>{
+          const btn = document.createElement('button'); btn.className='option'; btn.innerText=opt;
+          btn.onclick = ()=>{
+            Array.from(qdiv.querySelectorAll('button')).forEach(b=>b.disabled=true);
+            if(idx===item.correct){ btn.classList.add('correct');
+              const p = document.createElement('div'); p.className='small'; p.innerHTML='✅ Correcto. '+item.exp; qdiv.appendChild(p);
+            } else { btn.classList.add('wrong');
+              const p = document.createElement('div'); p.className='small'; p.innerHTML='❌ Incorrecto. '+item.exp; qdiv.appendChild(p);
+            }
+          };
+          qdiv.appendChild(btn);
+        });
+        container.appendChild(qdiv);
+      });
+    }
+
+    window.openSection = openSection;
+  </script>
+</body>
+</html>
